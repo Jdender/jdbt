@@ -16,9 +16,6 @@ fn tag_into_vec(tag: Tag, data: &mut Vec<u8>) -> Result<(), &'static str> {
     data.write_u8(tag.to_binary()).map_err(|_| "Unable to write type.")?;
 
     match tag {
-
-        Tag::End => data.write_u8(0).map_err(|_| "Unable to write End.")?,
-
         Tag::Byte(val)  => 
             data.write_u8(val as u8)
                 .map_err(|_| "Unable to write Byte.")?,

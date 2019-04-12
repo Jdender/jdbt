@@ -19,8 +19,6 @@ fn cursor_to_tag(data: &mut Cursor<Vec<u8>>, tag_type: Option<TagType>) -> Resul
 
     Ok(match tag_type {
 
-        TagType::End => Tag::End,
-
         TagType::Byte => Tag::Byte(
             data.read_u8()
                 .map_err(|_| "Unable to read Byte.")? as i8

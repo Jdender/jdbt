@@ -2,7 +2,6 @@ use std::collections::HashMap;
 
 #[derive(Debug)]
 pub enum Tag {
-    End,
     Byte(i8),
     Short(i16),
     Int(i32),
@@ -19,7 +18,6 @@ impl Tag {
     pub fn to_type(&self) -> TagType {
         
         match self {
-            Tag::End       => TagType::End,
             Tag::Byte(_)   => TagType::Byte,
             Tag::Short(_)  => TagType::Short,
             Tag::Int(_)    => TagType::Int,
@@ -39,7 +37,6 @@ impl Tag {
 }
 
 pub enum TagType {
-    End,
     Byte,
     Short,
     Int,
@@ -56,7 +53,6 @@ impl TagType {
     pub fn from_binary(tag: u8) -> Option<TagType> {
 
         match tag {
-            0 => Some(TagType::End),
             1 => Some(TagType::Byte),
             2 => Some(TagType::Short),
             3 => Some(TagType::Int),
@@ -73,7 +69,6 @@ impl TagType {
     pub fn to_binary(&self) -> u8 {
 
         match self {
-            TagType::End    => 0,
             TagType::Byte   => 1,
             TagType::Short  => 2,
             TagType::Int    => 3,
