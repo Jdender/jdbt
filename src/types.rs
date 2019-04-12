@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
 #[derive(Debug)]
-pub enum Tags {
+pub enum Tag {
     End,
     Byte(i8),
     Short(i16),
@@ -10,25 +10,25 @@ pub enum Tags {
     Float(f32),
     Double(f64),
     String(String),
-    Array(Vec<Tags>),
-    Map(HashMap<String, Tags>),
+    Array(Vec<Tag>),
+    Map(HashMap<String, Tag>),
 }
 
-impl Tags {
+impl Tag {
 
-    pub fn to_type(&self) -> TagsTypes {
+    pub fn to_type(&self) -> TagType {
         
         match self {
-            Tags::End       => TagsTypes::End,
-            Tags::Byte(_)   => TagsTypes::Byte,
-            Tags::Short(_)  => TagsTypes::Short,
-            Tags::Int(_)    => TagsTypes::Int,
-            Tags::Long(_)   => TagsTypes::Long,
-            Tags::Float(_)  => TagsTypes::Float,
-            Tags::Double(_) => TagsTypes::Double,
-            Tags::String(_) => TagsTypes::String,
-            Tags::Array(_)  => TagsTypes::Array,
-            Tags::Map(_)    => TagsTypes::Map,
+            Tag::End       => TagType::End,
+            Tag::Byte(_)   => TagType::Byte,
+            Tag::Short(_)  => TagType::Short,
+            Tag::Int(_)    => TagType::Int,
+            Tag::Long(_)   => TagType::Long,
+            Tag::Float(_)  => TagType::Float,
+            Tag::Double(_) => TagType::Double,
+            Tag::String(_) => TagType::String,
+            Tag::Array(_)  => TagType::Array,
+            Tag::Map(_)    => TagType::Map,
         }
     }
 
@@ -38,7 +38,7 @@ impl Tags {
     }
 }
 
-pub enum TagsTypes {
+pub enum TagType {
     End,
     Byte,
     Short,
@@ -51,21 +51,21 @@ pub enum TagsTypes {
     Map,
 }
 
-impl TagsTypes {
+impl TagType {
 
-    pub fn from_binary(tag: u8) -> Option<TagsTypes> {
+    pub fn from_binary(tag: u8) -> Option<TagType> {
 
         match tag {
-            0 => Some(TagsTypes::End),
-            1 => Some(TagsTypes::Byte),
-            2 => Some(TagsTypes::Short),
-            3 => Some(TagsTypes::Int),
-            4 => Some(TagsTypes::Long),
-            5 => Some(TagsTypes::Float),
-            6 => Some(TagsTypes::Double),
-            7 => Some(TagsTypes::String),
-            8 => Some(TagsTypes::Array),
-            9 => Some(TagsTypes::Map),
+            0 => Some(TagType::End),
+            1 => Some(TagType::Byte),
+            2 => Some(TagType::Short),
+            3 => Some(TagType::Int),
+            4 => Some(TagType::Long),
+            5 => Some(TagType::Float),
+            6 => Some(TagType::Double),
+            7 => Some(TagType::String),
+            8 => Some(TagType::Array),
+            9 => Some(TagType::Map),
             _ => None,
         }
     }
@@ -73,16 +73,16 @@ impl TagsTypes {
     pub fn to_binary(&self) -> u8 {
 
         match self {
-            TagsTypes::End    => 0,
-            TagsTypes::Byte   => 1,
-            TagsTypes::Short  => 2,
-            TagsTypes::Int    => 3,
-            TagsTypes::Long   => 4,
-            TagsTypes::Float  => 5,
-            TagsTypes::Double => 6,
-            TagsTypes::String => 7,
-            TagsTypes::Array  => 8,
-            TagsTypes::Map    => 9,
+            TagType::End    => 0,
+            TagType::Byte   => 1,
+            TagType::Short  => 2,
+            TagType::Int    => 3,
+            TagType::Long   => 4,
+            TagType::Float  => 5,
+            TagType::Double => 6,
+            TagType::String => 7,
+            TagType::Array  => 8,
+            TagType::Map    => 9,
         }
     }
 }

@@ -1,5 +1,4 @@
-use std::fs;
-use decode::vec_to_tags;
+use decode::vec_to_tag;
 
 mod types;
 mod decode;
@@ -11,7 +10,7 @@ fn main() {
         0, 0, 0, 4 // 4 
     ];
 
-    let result = vec_to_tags(data).unwrap();
+    let result = vec_to_tag(data).unwrap();
 
     println!("{:?}", result);
 }
