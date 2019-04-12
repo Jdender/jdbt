@@ -1,16 +1,17 @@
+use std::collections::HashMap;
 use byteorder::{BigEndian, WriteBytesExt};
-use super::types::{Tag, TagType};
+use super::types::Tag;
 
 pub fn encode(tag: Tag) -> Result<Vec<u8>, &'static str> {
 
     let mut data = vec![];
 
-    tag_to_vec(tag, &mut data)?;
+    tag_into_vec(tag, &mut data)?;
 
     Ok(data)
 }
 
-fn tag_to_vec(tag: Tag, data: &mut Vec<u8>) -> Result<(), &'static str> {
+fn tag_into_vec(tag: Tag, data: &mut Vec<u8>) -> Result<(), &'static str> {
 
     data.write_u8(tag.to_binary()).map_err(|_| "Unable to write type.")?;
 
@@ -38,10 +39,22 @@ fn tag_to_vec(tag: Tag, data: &mut Vec<u8>) -> Result<(), &'static str> {
             data.write_f64::<BigEndian>(val)
                 .map_err(|_| "Unable to write Double.")?,
 
-        Tag::String(val) => data.write_u8(0).map_err(|_| "Unable to write Byte.")?,
-        Tag::Array(val)  => data.write_u8(0).map_err(|_| "Unable to write Byte.")?,
-        Tag::Map(val)    => data.write_u8(0).map_err(|_| "Unable to write Byte.")?,
+        Tag::String(val) => string_into_vec(val, data)?,
+        Tag::Array(val)  => array_into_vec(val, data)?,
+        Tag::Map(val)    => map_into_vec(val, data)?,
     };
 
+    Ok(())
+}
+
+fn string_into_vec(_tag: String, _data: &mut Vec<u8>) -> Result<(), &'static str> {
+    Ok(())
+}
+
+fn array_into_vec(_tag: Vec<Tag>, _data: &mut Vec<u8>) -> Result<(), &'static str> {
+    Ok(())
+}
+
+fn map_into_vec(_tag: HashMap<String, Tag>, _data: &mut Vec<u8>) -> Result<(), &'static str> {
     Ok(())
 }
