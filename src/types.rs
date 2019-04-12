@@ -53,15 +53,15 @@ impl TagType {
     pub fn from_binary(tag: u8) -> Option<TagType> {
 
         match tag {
-            1 => Some(TagType::Byte),
-            2 => Some(TagType::Short),
-            3 => Some(TagType::Int),
-            4 => Some(TagType::Long),
-            5 => Some(TagType::Float),
-            6 => Some(TagType::Double),
-            7 => Some(TagType::String),
-            8 => Some(TagType::Array),
-            9 => Some(TagType::Map),
+            0 => Some(TagType::Byte),
+            1 => Some(TagType::Short),
+            2 => Some(TagType::Int),
+            3 => Some(TagType::Long),
+            4 => Some(TagType::Float),
+            5 => Some(TagType::Double),
+            6 => Some(TagType::String),
+            7 => Some(TagType::Array),
+            8 => Some(TagType::Map),
             _ => None,
         }
     }
@@ -69,15 +69,15 @@ impl TagType {
     pub fn to_binary(&self) -> u8 {
 
         match self {
-            TagType::Byte   => 1,
-            TagType::Short  => 2,
-            TagType::Int    => 3,
-            TagType::Long   => 4,
-            TagType::Float  => 5,
-            TagType::Double => 6,
-            TagType::String => 7,
-            TagType::Array  => 8,
-            TagType::Map    => 9,
+            TagType::Byte   => 0,
+            TagType::Short  => 1,
+            TagType::Int    => 2,
+            TagType::Long   => 3,
+            TagType::Float  => 4,
+            TagType::Double => 5,
+            TagType::String => 6,
+            TagType::Array  => 7,
+            TagType::Map    => 8,
         }
     }
 }
