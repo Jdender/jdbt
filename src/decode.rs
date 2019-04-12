@@ -12,9 +12,10 @@ pub fn vec_to_tag(raw: Vec<u8>) -> Result<Tag, &'static str> {
 
 fn cursor_to_tag(data: &mut Cursor<Vec<u8>>, tag_type: Option<TagType>) -> Result<Tag, &'static str> {
 
-    let tag_type = data.read_u8().map_err(|_| "Unable to read tag type.")?;
-
-    let tag_type = TagType::from_binary(tag_type).ok_or("Invalid tag type.")?;
+    let tag_type = match tag_type {
+        Some(tag_type) => tag_type,
+        None => cursor_to_tag_type(data)?,
+    };
 
     Ok(match tag_type {
 
@@ -50,6 +51,13 @@ fn cursor_to_tag(data: &mut Cursor<Vec<u8>>, tag_type: Option<TagType>) -> Resul
         TagType::Array => Tag::Array(cursor_to_array(data)?),
         TagType::Map => Tag::Map(cursor_to_map(data)?),
     })
+}
+
+fn cursor_to_tag_type(data: &mut Cursor<Vec<u8>>) -> Result<TagType, &'static str> {
+
+    let tag_type = data.read_u8().map_err(|_| "Unable to read tag type.")?;
+
+    TagType::from_binary(tag_type).ok_or("Invalid tag type.")
 }
 
 fn cursor_to_string(_data: &mut Cursor<Vec<u8>>) -> Result<String, &'static str> {
