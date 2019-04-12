@@ -3,7 +3,7 @@ use std::io::Cursor;
 use byteorder::{BigEndian, ReadBytesExt};
 use super::types::{Tag, TagType};
 
-pub fn vec_to_tag(raw: Vec<u8>) -> Result<Tag, &'static str> {
+pub fn decode(raw: Vec<u8>) -> Result<Tag, &'static str> {
 
     let mut data = Cursor::new(raw);
 

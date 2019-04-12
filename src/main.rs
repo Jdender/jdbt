@@ -1,16 +1,18 @@
-use decode::vec_to_tag;
+use decode::decode;
+use encode::encode;
+use types::Tag;
 
 mod types;
 mod decode;
+mod encode;
 
 fn main() {
 
-    let data = vec![
-        3, // Int
-        0, 0, 0, 4 // 4 
-    ];
+    let tag = Tag::Byte(1);
 
-    let result = vec_to_tag(data).unwrap();
+    let data = encode(tag).unwrap();
+
+    let result = decode(data).unwrap();
 
     println!("{:?}", result);
 }
