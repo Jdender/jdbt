@@ -44,7 +44,16 @@ fn tag_into_vec(tag: Tag, data: &mut Vec<u8>) -> Result<(), &'static str> {
     Ok(())
 }
 
-fn string_into_vec(_tag: String, _data: &mut Vec<u8>) -> Result<(), &'static str> {
+fn string_into_vec(tag: String, data: &mut Vec<u8>) -> Result<(), &'static str> {
+
+    data.write_u16::<BigEndian>(tag.len() as u16)
+        .map_err(|_| "Unable to write String length.")?;
+
+    for byte in tag.bytes() {
+        data.write_u8(byte)
+            .map_err(|_| "Unable to write String.")?;
+    }
+
     Ok(())
 }
 

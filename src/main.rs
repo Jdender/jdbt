@@ -8,7 +8,7 @@ mod encode;
 
 fn main() {
 
-    let tag = Tag::Byte(1);
+    let tag = Tag::String("foo bar".to_owned());
 
     let data = encode(tag).unwrap();
 

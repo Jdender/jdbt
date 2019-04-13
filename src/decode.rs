@@ -58,8 +58,21 @@ fn cursor_to_tag_type(data: &mut Cursor<Vec<u8>>) -> Result<TagType, &'static st
     TagType::from_binary(tag_type).ok_or("Invalid tag type.")
 }
 
-fn cursor_to_string(_data: &mut Cursor<Vec<u8>>) -> Result<String, &'static str> {
-    Ok("Not implemented".to_owned())
+fn cursor_to_string(data: &mut Cursor<Vec<u8>>) -> Result<String, &'static str> {
+
+    let length = data.read_u16::<BigEndian>().map_err(|_| "Unable to read String length.")?;
+
+    let mut string: Vec<u8> = vec![];
+
+    for _ in 0..length { 
+        string.push(
+            data.read_u8().map_err(|_| "Unable to read String.")?
+        );
+    }
+
+    let string = String::from_utf8(string).map_err(|_| "Unable to read String as valid utf8.")?;
+
+    Ok(string)
 }
 
 fn cursor_to_array(_data: &mut Cursor<Vec<u8>>) -> Result<Vec<Tag>, &'static str> {
