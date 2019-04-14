@@ -7,15 +7,17 @@ pub fn decode(raw: Vec<u8>) -> Result<Tag, &'static str> {
 
     let mut data = Cursor::new(raw);
 
-    cursor_to_tag(&mut data, None)
+    cursor_to_tag_and_type(&mut data)
 }
 
-fn cursor_to_tag(data: &mut Cursor<Vec<u8>>, tag_type: Option<TagType>) -> Result<Tag, &'static str> {
+fn cursor_to_tag_and_type(data: &mut Cursor<Vec<u8>>) -> Result<Tag, &'static str> {
 
-    let tag_type = match tag_type {
-        Some(tag_type) => tag_type,
-        None => cursor_to_tag_type(data)?,
-    };
+    let tag_type = cursor_to_tag_type(data)?;
+
+    cursor_to_tag(data, tag_type)
+}
+
+fn cursor_to_tag(data: &mut Cursor<Vec<u8>>, tag_type: TagType) -> Result<Tag, &'static str> {
 
     Ok(match tag_type {
 
