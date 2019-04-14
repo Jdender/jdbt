@@ -6,14 +6,19 @@ pub fn encode(tag: Tag) -> Result<Vec<u8>, &'static str> {
 
     let mut data = vec![];
 
-    tag_into_vec(tag, &mut data)?;
+    tag_and_type_into_vec(tag, &mut data)?;
 
     Ok(data)
 }
 
-fn tag_into_vec(tag: Tag, data: &mut Vec<u8>) -> Result<(), &'static str> {
+fn tag_and_type_into_vec(tag: Tag, data: &mut Vec<u8>) -> Result<(), &'static str> {
 
     data.write_u8(tag.to_binary()).map_err(|_| "Unable to write type.")?;
+
+    tag_into_vec(tag, data)
+}
+
+fn tag_into_vec(tag: Tag, data: &mut Vec<u8>) -> Result<(), &'static str> {
 
     match tag {
         Tag::Byte(val)  => 
