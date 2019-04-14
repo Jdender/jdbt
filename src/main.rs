@@ -6,6 +6,9 @@ mod types;
 mod decode;
 mod encode;
 
+#[cfg(test)]
+mod tests;
+
 fn main() {
 
     let tag = Tag::String("foo bar".to_owned());
